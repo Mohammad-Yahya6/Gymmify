@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Future dependencies (when you add them)
+node_modules/
+
+# Future environment variables (when you add API keys)
+.env
+.env.local
+
+# Logs
+*.log

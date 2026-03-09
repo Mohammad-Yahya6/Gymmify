@@ -1,0 +1,765 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+    background-color: #000; 
+    font-family: Arial, sans-serif;
+}
+
+/* ==================== HEADER ==================== */
+header {
+    color: #fff;
+    padding: 0.8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid #1C1C1C 5px;
+    position: relative;
+}
+
+.logo {
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: underline;
+    z-index: 1001;
+}
+
+.logo a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Hamburger Menu Button */
+.menu-toggle {
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Hamburger animation when open */
+.menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+}
+
+nav {
+    display: flex;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+nav a:hover {
+    opacity: 0.6;
+    text-decoration: underline;
+}
+
+.icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1001;
+}
+
+.icons img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  padding: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icons img:hover {
+  transform: scale(1.3);
+}
+
+/* ==================== MAIN CONTENT ==================== */
+main {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 0 2rem;
+}
+
+.feature .text {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.feature .image {
+  display: flex;
+  justify-content: center;
+}
+
+.feature .image img {
+  max-width: 60%;
+  height: auto;
+}
+
+h2 {
+    color: white;
+    font-size: clamp(1.2rem, 3vw, 2rem); /* Responsive font size */
+}
+
+button {
+  margin: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  cursor: pointer; 
+  background-color: #2C2C2C;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #414040;
+  text-decoration: underline;
+}
+
+/* ==================== FOOTER ==================== */
+footer {
+  background: #111;
+  color: #fff;
+  width: 100%;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+  background: #222;
+  gap: 2rem;
+}
+
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+  text-align: center; /* Center all content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-right {
+  flex: 1;
+  padding-left: 2rem;
+  border-left: 2px solid #666;
+  min-width: 200px;
+  text-align: center; /* Center all content */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.brand-row {
+  display: flex;
+  flex-direction: column; /* Stack Gymmify on top */
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.brand-row h2 {
+  text-decoration: underline;
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.top-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.top-links a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.top-links a:hover {
+  opacity: 0.7;
+}
+
+.bottom-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the links */
+}
+
+.bottom-links a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.bottom-links a:hover {
+  opacity: 0.7;
+}
+
+.footer-right h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the icons */
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  transition: transform 0.2s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.1);
+}
+
+.social-icons img {
+  width: 38px;
+  height: 38px;
+}
+
+.footer-bottom {
+  background: #000;
+  text-align: center;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+/* ==================== RESPONSIVE BREAKPOINTS ==================== */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  /* Header adjustments - Show hamburger menu */
+  header {
+    padding: 0.8rem 1rem;
+  }
+  
+  .menu-toggle {
+    display: flex; /* Show hamburger on tablet and mobile */
+  }
+  
+  nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen */
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background: #1a1a1a;
+    padding: 5rem 2rem 2rem;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  nav.active {
+    right: 0; /* Slide in when active */
+  }
+  
+  nav ul {
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+  }
+  
+  nav li {
+    width: 100%;
+  }
+  
+  nav a {
+    font-size: 1.2rem;
+    display: block;
+    padding: 0.5rem 0;
+  }
+  
+  .logo {
+    font-size: 1.4rem;
+  }
+  
+  /* Main content adjustments */
+  main {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  
+  .feature {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+  
+  .feature .text {
+    max-width: 100%;
+  }
+  
+  .feature .image img {
+    max-width: 80%;
+  }
+  
+  /* Footer adjustments */
+  .footer-top {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  
+  .footer-left,
+  .footer-right {
+    padding: 0;
+    border: none;
+    width: 100%;
+  }
+  
+  .footer-right {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #666;
+    border-left: none;
+  }
+  
+  .brand-row {
+    align-items: center;
+  }
+  
+  .bottom-links {
+    gap: 1rem;
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  /* Header stays compact with hamburger */
+  header {
+    padding: 0.8rem 1rem;
+  }
+  
+  .logo {
+    font-size: 1.3rem;
+  }
+  
+  nav {
+    width: 80%;
+    max-width: 250px;
+  }
+  
+  nav a {
+    font-size: 1.1rem;
+  }
+  
+  .icons img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  /* Main content */
+  main {
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+  
+  .feature {
+    margin: 2rem 0;
+    padding: 0 0.5rem;
+  }
+  
+  button {
+    padding: 0.8rem 1.5rem;
+    margin: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Footer */
+  .footer-top {
+    padding: 1rem;
+  }
+  
+  .brand-row h2 {
+    font-size: 1.3rem;
+  }
+  
+  .top-links {
+    gap: 1rem;
+  }
+  
+  .top-links a {
+    font-size: 0.95rem;
+  }
+  
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .social-icons img {
+    width: 32px;
+    height: 32px;
+  }
+}
+/* .body{
+  display:flex;
+  border:  2px solid red;
+  justify-content: center;
+  
+} */
+/* Container styling - make it responsive */
+/* Container styling - make it responsive */
+/* Container styling - make it responsive */
+.body {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.body svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Target ONLY the muscle paths by their specific IDs */
+svg path[id="tricep left"],
+svg path[id="tricep right"],
+svg path[id="bicep left"],
+svg path[id="bicep right"],
+svg path[id="lat left"],
+svg path[id="lat right"],
+svg path[id="glute left"],
+svg path[id="glute right"],
+svg path[id="hamstring left"],
+svg path[id="hamstring right"],
+svg path[id="calf left"],
+svg path[id="calf right"],
+svg path[id="chest left"],
+svg path[id="chest right"],
+svg path[id="shoulder left"],
+svg path[id="shoulder right"],
+svg path[id="forearm left"],
+svg path[id="forearm right"],
+svg path[id="quads left"],
+svg path[id="quads right"],
+svg path[id="trap left"],
+svg path[id="trap right"],
+svg path[id="mid back left"],
+svg path[id="mid back right"],
+svg path[id="lower back left"],
+svg path[id="lower back right"],
+svg path[id="neck left"],
+svg path[id="neck right"],
+svg path[id="abdominal 1"],
+svg path[id="abdominal 2"],
+svg path[id="abdominal 3"],
+svg path[id="abdominal 4"],
+svg path[id="abdominal 5"],
+svg path[id="abdominal 6"],
+svg path[id="abdominal 7"],
+svg path[id="abdominal 8"] {
+  fill: transparent;
+  transition: fill 0.3s ease;
+  cursor: pointer;
+}
+
+/* Hover and active state - turns red */
+svg path[id="tricep left"]:hover,
+svg path[id="tricep right"]:hover,
+svg path[id="bicep left"]:hover,
+svg path[id="bicep right"]:hover,
+svg path[id="lat left"]:hover,
+svg path[id="lat right"]:hover,
+svg path[id="glute left"]:hover,
+svg path[id="glute right"]:hover,
+svg path[id="hamstring left"]:hover,
+svg path[id="hamstring right"]:hover,
+svg path[id="calf left"]:hover,
+svg path[id="calf right"]:hover,
+svg path[id="chest left"]:hover,
+svg path[id="chest right"]:hover,
+svg path[id="shoulder left"]:hover,
+svg path[id="shoulder right"]:hover,
+svg path[id="forearm left"]:hover,
+svg path[id="forearm right"]:hover,
+svg path[id="quads left"]:hover,
+svg path[id="quads right"]:hover,
+svg path[id="trap left"]:hover,
+svg path[id="trap right"]:hover,
+svg path[id="mid back left"]:hover,
+svg path[id="mid back right"]:hover,
+svg path[id="lower back left"]:hover,
+svg path[id="lower back right"]:hover,
+svg path[id="neck left"]:hover,
+svg path[id="neck right"]:hover,
+svg path[id="abdominal 1"]:hover,
+svg path[id="abdominal 2"]:hover,
+svg path[id="abdominal 3"]:hover,
+svg path[id="abdominal 4"]:hover,
+svg path[id="abdominal 5"]:hover,
+svg path[id="abdominal 6"]:hover,
+svg path[id="abdominal 7"]:hover,
+svg path[id="abdominal 8"]:hover,
+svg path.active {
+  fill: rgba(255, 74, 74, 0.7);
+}
+
+/* Keep Vector paths (background images) untouched */
+svg path[id^="Vector"],
+svg rect {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Info box - separate section below body */
+#muscle-info-box {
+  max-width: 800px;
+  margin: 3rem auto 2rem;
+  padding: 0 20px;
+  display: none;
+}
+
+#muscle-info-box.show {
+  display: block;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.muscle-info-content {
+  background: #1a1a1a;
+  border-left: 4px solid #ff4444;
+  padding: 0;
+  position: relative;
+}
+
+/* Muscle title section */
+.muscle-header {
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 68, 68, 0.1) 0%, transparent 100%);
+  border-bottom: 1px solid #333;
+}
+
+.muscle-title {
+  color: #ff4444;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.muscle-description {
+  color: #cccccc;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Exercises section */
+.exercises-section {
+  padding: 2rem;
+}
+
+.exercises-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.exercise-item {
+  background: #0d0d0d;
+  padding: 1rem 1.25rem;
+  border-left: 3px solid #ff4444;
+  font-size: 1rem;
+  color: white;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.exercise-item::before {
+  content: '→';
+  position: absolute;
+  left: -30px;
+  color: #ff4444;
+  font-size: 1.2rem;
+  transition: left 0.3s ease;
+}
+
+.exercise-item:hover {
+  background: #1a1a1a;
+  border-left-width: 10px;
+  transform: translateX(5px);
+}
+
+/* .exercise-item:hover::before {
+  left: px;
+} */
+
+.view-all-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 68, 68, 0.3);
+  font-family: 'Bebas Neue', sans-serif;
+  margin-left: -1px;
+}
+
+.view-all-btn:hover {
+  background: linear-gradient(135deg, #ff5555 0%, #dd0000 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 68, 68, 0.5);
+}
+
+.view-all-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .muscle-title {
+    font-size: 2rem;
+  }
+  
+  .muscle-header {
+    padding: 1.5rem;
+  }
+  
+  .exercises-section {
+    padding: 1.5rem;
+  }
+  
+  .exercise-item {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .body {
+    padding: 10px;
+  }
+  
+  #muscle-info-box {
+    margin: 2rem auto 1rem;
+    padding: 0 10px;
+  }
+  
+  .muscle-title {
+    font-size: 1.75rem;
+  }
+  
+  .muscle-description {
+    font-size: 0.9rem;
+  }
+  
+  .muscle-header {
+    padding: 1.25rem;
+  }
+  
+  .exercises-section {
+    padding: 1.25rem;
+  }
+  
+  .exercises-title {
+    font-size: 1.25rem;
+  }
+  
+  .view-all-btn {
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+  }
+}
+.bodypage{
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom:1rem;
+}

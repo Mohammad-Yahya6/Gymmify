@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Detail - Gymmify</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="exercise-detail.css" />
+    <script src="script.js" defer></script>
+    <script src="exercise-detail.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="index.html">Gymmify</a>
+        </div>
+        
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">About ▼</a></li>
+                <li><a href="bodymap.html">Body Map</a></li>
+                <li><a href="#">Nutrition</a></li>
+                <li><a href="exercises.html">Exercise</a></li>
+            </ul>
+        </nav>
+        
+        <div class="icons">
+            <img src="/images/brightness.png" alt="Theme toggle" aria-label="Toggle theme">
+            <img src="/images/pfp.png" alt="User profile" aria-label="User profile">
+        </div>
+    </header>
+
+    <main class="exercise-detail-main">
+        <!-- Back Button -->
+        <div class="back-nav">
+            <button class="back-btn" onclick="window.history.back()">
+                <span style="text-decoration: none;">←</span> Back to Exercises
+            </button>
+        </div>
+
+        <!-- Exercise Detail Section -->
+        <section class="exercise-hero">
+            <div class="exercise-content">
+                <!-- Left side: GIF/Video -->
+                <div class="exercise-media">
+                    <div class="media-container" id="exercise-gif">
+                        <span class="placeholder-text">Gif</span>
+                    </div>
+                </div>
+
+                <!-- Right side: Exercise Info -->
+                <div class="exercise-info-panel">
+                    <h1 id="exercise-name">Exercise</h1>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Targets the</span>
+                        <span class="info-value" id="target-muscle">{bodypart}</span>
+                        <span class="info-label">and the</span>
+                        <span class="info-value" id="secondary-muscle">{secondary muscles}</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Equipment Needed :</span>
+                        <span class="info-value" id="equipment-needed">{equipment}</span>
+                    </div>
+
+                    <div class="instructions-section">
+                        <h3>Instructions:</h3>
+                        <ol id="instructions-list">
+                            <li>{1}</li>
+                            <li>{2}</li>
+                            <li>{3}</li>
+                            <li>{4}</li>
+                            <li>{5}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Similar Exercises Section -->
+        <section class="similar-exercises">
+            <h2>Similar exercises for <span id="similar-bodypart">{bodypart}</span></h2>
+            
+            <div class="similar-exercises-grid" id="similar-exercises-container">
+                <!-- Similar exercise cards will be dynamically generated -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-left">
+                <div class="brand-row">
+                    <h2>Gymmify</h2>
+                </div>
+                <nav class="top-links">
+                    <a href="index.html">Home</a>
+                    <a href="bodymap.html">Body Map</a>
+                    <a href="#">Meal Plans</a>
+                    <a href="#">About</a>
+                    <a href="#">Nutrition</a>
+                </nav>
+            </div>
+
+            <div class="footer-right">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram">
+                        <img src="/images/instablack.png" alt="Instagram">
+                    </a>
+                    <a href="#" aria-label="Twitter">
+                        <img src="/images/twitterblack.png" alt="Twitter">
+                    </a>
+                    <a href="#" aria-label="TikTok">
+                        <img src="/images/tiktokblack.png" alt="TikTok">
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <img src="/images/faceblack.png" alt="Facebook">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>All Copyright laws reserved ©</p>
+        </div>
+    </footer>
+</body>
+</html>
