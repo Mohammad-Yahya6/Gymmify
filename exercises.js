@@ -1,184 +1,13 @@
-// Sample exercise data (replace with API data later)
-const exercisesData = [
-    {
-        name: "Bench Press",
-        slug: "bench-press",
-        bodyFocus: "upper",
-        exactPart: "chest",
-        equipment: "barbell",
-        description: "Targeting the chest, specifically the middle pecs. As a compound exercise, this compound exercise also recruits the triceps and front delts, as well as stabilizer muscles of the core and back. Great for building mass and overall upper body strength."
-    },
-    {
-        name: "Incline Dumbbell Press",
-        slug: "incline-dumbbell-press",
-        bodyFocus: "upper",
-        exactPart: "chest",
-        equipment: "dumbbell",
-        description: "An excellent upper chest builder that allows for a greater range of motion than barbell variations. Perfect for developing the clavicular head of the pectoralis major."
-    },
-    {
-        name: "Cable Flyes",
-        slug: "cable-flyes",
-        bodyFocus: "upper",
-        exactPart: "chest",
-        equipment: "cable",
-        description: "Pure chest isolation with constant tension throughout the movement. Excellent for developing the mind-muscle connection and chest definition."
-    },
-    {
-        name: "Barbell Overhead Press",
-        slug: "barbell-overhead-press",
-        bodyFocus: "upper",
-        exactPart: "shoulders",
-        equipment: "barbell",
-        description: "The king of shoulder exercises. Builds massive delts while also working the triceps and upper chest. Essential for overhead strength and pressing power."
-    },
-    {
-        name: "Lateral Raises",
-        slug: "lateral-raises",
-        bodyFocus: "upper",
-        exactPart: "shoulders",
-        equipment: "dumbbell",
-        description: "The best exercise for building wider shoulders. Directly targets the lateral deltoid head for that 3D shoulder look."
-    },
-    {
-        name: "Face Pulls",
-        slug: "face-pulls",
-        bodyFocus: "upper",
-        exactPart: "shoulders",
-        equipment: "cable",
-        description: "Essential for rear delt development and shoulder health. Also works the upper back and improves posture."
-    },
-    {
-        name: "Barbell Curl",
-        slug: "barbell-curl",
-        bodyFocus: "upper",
-        exactPart: "biceps",
-        equipment: "barbell",
-        description: "The classic bicep builder. Allows you to lift heavy weight and build overall arm mass. Focus on controlled negatives for maximum growth."
-    },
-    {
-        name: "Hammer Curls",
-        slug: "hammer-curls",
-        bodyFocus: "upper",
-        exactPart: "biceps",
-        equipment: "dumbbell",
-        description: "Targets the brachialis and brachioradialis along with the biceps. Essential for building thicker, fuller-looking arms."
-    },
-    {
-        name: "Close-Grip Bench Press",
-        slug: "close-grip-bench-press",
-        bodyFocus: "upper",
-        exactPart: "triceps",
-        equipment: "barbell",
-        description: "A powerful tricep mass builder that also works the chest. Allows for heavy loading and progressive overload."
-    },
-    {
-        name: "Tricep Dips",
-        slug: "tricep-dips",
-        bodyFocus: "upper",
-        exactPart: "triceps",
-        equipment: "bodyweight",
-        description: "One of the best bodyweight exercises for building tricep mass. Can be loaded with additional weight for progression."
-    },
-    {
-        name: "Hanging Leg Raises",
-        slug: "hanging-leg-raises",
-        bodyFocus: "full",
-        exactPart: "abs",
-        equipment: "bodyweight",
-        description: "An advanced ab exercise that targets the entire core with emphasis on the lower abs. Also builds incredible grip strength."
-    },
-    {
-        name: "Cable Woodchops",
-        slug: "cable-woodchops",
-        bodyFocus: "full",
-        exactPart: "abs",
-        equipment: "cable",
-        description: "A functional core exercise that targets the obliques and develops rotational power. Great for athletes."
-    },
-    {
-        name: "Back Squat",
-        slug: "back-squat",
-        bodyFocus: "lower",
-        exactPart: "quadriceps",
-        equipment: "barbell",
-        description: "The king of leg exercises. Builds massive quads, glutes, and overall lower body strength. Essential for any serious lifter."
-    },
-    {
-        name: "Bulgarian Split Squats",
-        slug: "bulgarian-split-squats",
-        bodyFocus: "lower",
-        exactPart: "quadriceps",
-        equipment: "dumbbell",
-        description: "A unilateral leg exercise that builds incredible quad and glute strength. Also improves balance and addresses muscle imbalances."
-    },
-    {
-        name: "Romanian Deadlifts",
-        slug: "romanian-deadlifts",
-        bodyFocus: "lower",
-        exactPart: "hamstrings",
-        equipment: "barbell",
-        description: "The best hamstring developer. Also builds the glutes and lower back. Essential for posterior chain development."
-    },
-    {
-        name: "Leg Curls",
-        slug: "leg-curls",
-        bodyFocus: "lower",
-        exactPart: "hamstrings",
-        equipment: "machine",
-        description: "Pure hamstring isolation. Great for building the hamstring peak and balancing out quad development."
-    },
-    {
-        name: "Standing Calf Raises",
-        slug: "standing-calf-raises",
-        bodyFocus: "lower",
-        exactPart: "calves",
-        equipment: "machine",
-        description: "The primary exercise for building the gastrocnemius muscle. High reps and full range of motion are key."
-    },
-    {
-        name: "Pull-ups",
-        slug: "pull-ups",
-        bodyFocus: "upper",
-        exactPart: "lats",
-        equipment: "bodyweight",
-        description: "The ultimate back builder. Develops the lats, biceps, and grip strength. Essential for building a V-taper physique."
-    },
-    {
-        name: "Barbell Rows",
-        slug: "barbell-rows",
-        bodyFocus: "upper",
-        exactPart: "lats",
-        equipment: "barbell",
-        description: "A compound pulling exercise that builds thick lats and overall back mass. Also strengthens the lower back and core."
-    },
-    {
-        name: "Barbell Shrugs",
-        slug: "barbell-shrugs",
-        bodyFocus: "upper",
-        exactPart: "traps",
-        equipment: "barbell",
-        description: "The primary trap builder. Heavy weight and a full range of motion will build massive upper traps."
-    },
-    {
-        name: "Deadlifts",
-        slug: "deadlifts",
-        bodyFocus: "lower",
-        exactPart: "lower-back",
-        equipment: "barbell",
-        description: "The king of all exercises. Builds total body strength with emphasis on the posterior chain. Essential for any strength program."
-    },
-    {
-        name: "Hip Thrusts",
-        slug: "hip-thrusts",
-        bodyFocus: "lower",
-        exactPart: "glutes",
-        equipment: "barbell",
-        description: "The best glute builder. Allows for heavy loading and direct glute activation. Essential for developing powerful hips."
-    }
-];
+// Global variable to store exercises
+let exercisesData = [];
+let currentFilters = {
+    search: '',
+    bodyFocus: 'all',
+    exactPart: 'all',
+    equipment: 'all'
+};
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const searchInput = document.getElementById('search-input');
     const searchBtn = document.querySelector('.search-btn');
     const bodyFocusSelect = document.getElementById('body-focus');
@@ -189,69 +18,48 @@ document.addEventListener('DOMContentLoaded', function() {
     const noResults = document.getElementById('no-results');
     const viewButtons = document.querySelectorAll('.view-btn');
     
+    // Show loading state
+    showLoading();
+    
     // Check if we came from body map page
     const selectedMuscle = sessionStorage.getItem('selectedMuscle');
     const selectedBodyFocus = sessionStorage.getItem('selectedBodyFocus');
     
     if (selectedMuscle) {
-        // Map muscle keys to your "EXACT PART" dropdown values
-        const muscleToExactPart = {
-            'chest': 'chest',
+        // Map muscle keys to API target values
+        const muscleToTarget = {
+            'chest': 'pectorals',
             'tricep': 'triceps',
             'bicep': 'biceps',
-            'shoulder': 'shoulders',
+            'shoulder': 'delts',
             'forearm': 'forearms',
             'trap': 'traps',
             'lat': 'lats',
-            'mid back': 'middle back',
+            'mid back': 'spine',
             'neck': 'neck',
             'abdominals': 'abs',
-            'lower back': 'lower-back',
+            'lower back': 'lower back',
             'glute': 'glutes',
-            'quads': 'quadriceps',
+            'quads': 'quads',
             'hamstring': 'hamstrings',
             'calf': 'calves'
         };
         
-        // Set the EXACT PART dropdown
-        const exactPartValue = muscleToExactPart[selectedMuscle];
-        if (exactPartValue) {
-            exactPartSelect.value = exactPartValue;
+        const targetValue = muscleToTarget[selectedMuscle];
+        if (targetValue) {
+            // Set the dropdown and load exercises for this specific muscle
+            exactPartSelect.value = targetValue;
+            currentFilters.exactPart = targetValue;
+            exercisesData = await exerciseAPI.getExercisesByTarget(targetValue);
+            renderExercises(exercisesData);
+            hideLoading();
         }
         
-        // Clear sessionStorage
         sessionStorage.removeItem('selectedMuscle');
-    }
-    
-    if (selectedBodyFocus) {
-        // Set the BODY FOCUS dropdown
-        bodyFocusSelect.value = selectedBodyFocus;
         sessionStorage.removeItem('selectedBodyFocus');
-    }
-    
-    // Initial render (trigger filter after setting dropdowns)
-    setTimeout(() => {
-        performSearch();
-    }, 100);
-    
-    // Search functionality
-    function performSearch() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const bodyFocus = bodyFocusSelect.value;
-        const exactPart = exactPartSelect.value;
-        const equipment = equipmentSelect.value;
-        
-        const filtered = exercisesData.filter(exercise => {
-            const matchesSearch = exercise.name.toLowerCase().includes(searchTerm) ||
-                                exercise.description.toLowerCase().includes(searchTerm);
-            const matchesBody = !bodyFocus || bodyFocus === 'all' || exercise.bodyFocus === bodyFocus;
-            const matchesPart = !exactPart || exactPart === 'all' || exercise.exactPart === exactPart;
-            const matchesEquipment = !equipment || equipment === 'all' || exercise.equipment === equipment;
-            
-            return matchesSearch && matchesBody && matchesPart && matchesEquipment;
-        });
-        
-        renderExercises(filtered);
+    } else {
+        // Load initial exercises (first 100)
+        await loadInitialExercises();
     }
     
     // Event listeners
@@ -278,6 +86,121 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Load initial exercises
+    async function loadInitialExercises() {
+        try {
+            // Load first 100 exercises as default
+            exercisesData = await exerciseAPI.getAllExercises(100, 0);
+            renderExercises(exercisesData);
+            hideLoading();
+        } catch (error) {
+            console.error('Error loading exercises:', error);
+            hideLoading();
+            showError();
+        }
+    }
+    
+    // Search functionality - Makes API calls based on filters
+    async function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const bodyFocus = bodyFocusSelect.value;
+        const exactPart = exactPartSelect.value;
+        const equipment = equipmentSelect.value;
+        
+        // Update current filters
+        currentFilters = { search: searchTerm, bodyFocus, exactPart, equipment };
+        
+        // Show loading
+        showLoading();
+        
+        try {
+            let exercises = [];
+            
+            // Priority order for API calls:
+            // 1. Exact Part (target muscle) - most specific
+            // 2. Body Focus (body part)
+            // 3. Equipment
+            // 4. Search term
+            // 5. Default (cached exercises)
+            
+            if (exactPart && exactPart !== 'all') {
+                // Fetch by target muscle from API
+                console.log('Fetching by target muscle:', exactPart);
+                exercises = await exerciseAPI.getExercisesByTarget(exactPart);
+                
+                // Apply additional filters locally
+                if (equipment && equipment !== 'all') {
+                    exercises = exercises.filter(ex => 
+                        ex.equipment.toLowerCase() === equipment.toLowerCase()
+                    );
+                }
+                
+                if (searchTerm) {
+                    exercises = exercises.filter(ex => 
+                        ex.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+            } else if (bodyFocus && bodyFocus !== 'all') {
+                // Fetch by body part from API
+                console.log('Fetching by body part:', bodyFocus);
+                exercises = await exerciseAPI.getExercisesByBodyPart(bodyFocus);
+                
+                // Apply additional filters locally
+                if (equipment && equipment !== 'all') {
+                    exercises = exercises.filter(ex => 
+                        ex.equipment.toLowerCase() === equipment.toLowerCase()
+                    );
+                }
+                
+                if (searchTerm) {
+                    exercises = exercises.filter(ex => 
+                        ex.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+            } else if (equipment && equipment !== 'all') {
+                // Fetch by equipment from API
+                console.log('Fetching by equipment:', equipment);
+                exercises = await exerciseAPI.getExercisesByEquipment(equipment);
+                
+                // Apply search term locally if provided
+                if (searchTerm) {
+                    exercises = exercises.filter(ex => 
+                        ex.name.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+            } else if (searchTerm) {
+                // Search by name from API
+                console.log('Searching by name:', searchTerm);
+                exercises = await exerciseAPI.searchExercises(searchTerm);
+                
+            } else {
+                // No filters - use cached exercises or load fresh batch
+                console.log('No filters - showing cached exercises');
+                if (exercisesData.length === 0) {
+                    exercises = await exerciseAPI.getAllExercises(100, 0);
+                } else {
+                    exercises = exercisesData;
+                }
+            }
+            
+            // Update cached data if we got results
+            if (exercises.length > 0) {
+                exercisesData = exercises;
+            }
+            
+            renderExercises(exercises);
+            hideLoading();
+            
+        } catch (error) {
+            console.error('Error searching exercises:', error);
+            hideLoading();
+            showError();
+        }
+    }
+    
     // Render exercises
     function renderExercises(exercises) {
         if (exercises.length === 0) {
@@ -292,34 +215,67 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsCount.textContent = `${exercises.length} Exercise${exercises.length !== 1 ? 's' : ''} Found`;
         
         exercisesContainer.innerHTML = exercises.map(exercise => `
-            <div class="exercise-card" onclick="navigateToExerciseDetail('${exercise.slug}')">
+            <div class="exercise-card" onclick="navigateToExerciseDetail('${exercise.id}')">
                 <div class="exercise-info">
                     <div class="exercise-header">
-                        <h3>${exercise.name}</h3>
+                        <h3>${capitalizeWords(exercise.name)}</h3>
                     </div>
                     <div class="exercise-meta">
-                        <span class="meta-tag">${capitalizeFirst(exercise.bodyFocus)}</span>
-                        ${exercise.exactPart ? `<span class="meta-tag">${capitalizeFirst(exercise.exactPart)}</span>` : ''}
+                        <span class="meta-tag">${capitalizeFirst(exercise.bodyPart)}</span>
+                        <span class="meta-tag">${capitalizeFirst(exercise.target)}</span>
                         <span class="meta-tag">${capitalizeFirst(exercise.equipment)}</span>
                     </div>
-                    <p>${exercise.description}</p>
+                    <p>Targets: ${capitalizeFirst(exercise.target)} | Equipment: ${capitalizeFirst(exercise.equipment)}</p>
                 </div>
                 <div class="exercise-actions">
-                    <button class="action-btn" onclick="event.stopPropagation(); navigateToExerciseDetail('${exercise.slug}')">Watch Video</button>
+                    <button class="action-btn" onclick="event.stopPropagation(); navigateToExerciseDetail('${exercise.id}')">Watch Video</button>
                 </div>
             </div>
         `).join('');
     }
     
-    // Helper function
+    // Helper functions
     function capitalizeFirst(str) {
+        if (!str) return '';
         return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    
+    function capitalizeWords(str) {
+        if (!str) return '';
+        return str.split(' ').map(word => capitalizeFirst(word)).join(' ');
+    }
+    
+    function showLoading() {
+        exercisesContainer.innerHTML = `
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading exercises...</p>
+            </div>
+        `;
+        exercisesContainer.style.display = 'block';
+        noResults.style.display = 'none';
+    }
+    
+    function hideLoading() {
+        // Loading will be replaced by renderExercises
+    }
+    
+    function showError() {
+        exercisesContainer.style.display = 'block';
+        noResults.style.display = 'none';
+        exercisesContainer.innerHTML = `
+            <div class="error">
+                <p>⚠️ Error loading exercises</p>
+                <p>Please check your internet connection and try again.</p>
+                <button onclick="location.reload()" class="retry-btn">Retry</button>
+            </div>
+        `;
     }
 });
 
 // Navigate to exercise detail page
-function navigateToExerciseDetail(exerciseSlug) {
-    window.location.href = `exercise.html?id=${exerciseSlug}`;
+function navigateToExerciseDetail(exerciseId) {
+    window.location.href = `exercise.html?id=${exerciseId}`;
 }
 
 // Make function available globally

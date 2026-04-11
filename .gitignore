@@ -6,10 +6,10 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Future dependencies (when you add them)
+# Future dependencies 
 node_modules/
 
-# Future environment variables (when you add API keys)
+# Future environment variables 
 .env
 .env.local
 

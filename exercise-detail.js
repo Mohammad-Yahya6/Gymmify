@@ -1,145 +1,24 @@
-// Dummy data for exercises - will be replaced with ExerciseDB API later
-const exerciseDetailData = {
-    "bench-press": {
-        name: "Bench Press",
-        gifUrl: "", // Will come from ExerciseDB
-        targetMuscle: "chest",
-        secondaryMuscles: "triceps and front delts",
-        equipment: "barbell",
-        instructions: [
-            "Lie flat on a bench with your feet firmly planted on the ground",
-            "Grip the barbell slightly wider than shoulder-width apart",
-            "Lower the bar slowly to your mid-chest while keeping your elbows at about a 45-degree angle",
-            "Press the bar back up to the starting position, fully extending your arms",
-            "Repeat for the desired number of repetitions while maintaining proper form"
-        ],
-        rating: 5,
-        rarity: "common"
-    },
-    "incline-dumbbell-press": {
-        name: "Incline Dumbbell Press",
-        gifUrl: "",
-        targetMuscle: "upper chest",
-        secondaryMuscles: "front delts and triceps",
-        equipment: "dumbbell",
-        instructions: [
-            "Set an adjustable bench to a 30-45 degree incline",
-            "Sit back with dumbbells resting on your thighs",
-            "Kick the weights up one at a time to shoulder height",
-            "Press the dumbbells up until your arms are fully extended",
-            "Lower the dumbbells back down with control to the starting position"
-        ],
-        rating: 5,
-        rarity: "common"
-    },
-    "cable-flyes": {
-        name: "Cable Flyes",
-        gifUrl: "",
-        targetMuscle: "chest",
-        secondaryMuscles: "front delts",
-        equipment: "cable",
-        instructions: [
-            "Set the pulleys at chest height and grab both handles",
-            "Step forward slightly and lean forward with a slight bend in your elbows",
-            "Bring your hands together in front of your chest in a hugging motion",
-            "Squeeze your chest at the peak contraction",
-            "Slowly return to the starting position with control"
-        ],
-        rating: 4.5,
-        rarity: "common"
-    },
-    "barbell-overhead-press": {
-        name: "Barbell Overhead Press",
-        gifUrl: "",
-        targetMuscle: "shoulders",
-        secondaryMuscles: "triceps and upper chest",
-        equipment: "barbell",
-        instructions: [
-            "Stand with feet shoulder-width apart and grip the barbell at shoulder height",
-            "Keep your core tight and elbows slightly forward",
-            "Press the bar overhead until your arms are fully extended",
-            "Lower the bar back to shoulder height with control",
-            "Avoid leaning back excessively during the movement"
-        ],
-        rating: 5,
-        rarity: "common"
-    }
-};
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadExercisesFromJSON();
+    let exercises = getAllExercises();
 
-// Similar exercises by body part
-const similarExercises = {
-    "chest": [
-        {
-            name: "Bench Press",
-            description: "Prioritizes the chest, specifically the middle chest (lower). It's a compound exercise also recruiting the triceps and front delts as well.",
-            rating: 5,
-            rarity: "common",
-            slug: "bench-press"
-        },
-        {
-            name: "Incline Dumbbell Press",
-            description: "An excellent upper chest builder that allows for a greater range of motion than barbell variations.",
-            rating: 5,
-            rarity: "common",
-            slug: "incline-dumbbell-press"
-        },
-        {
-            name: "Cable Flyes",
-            description: "Pure chest isolation with constant tension throughout the movement. Excellent for developing the mind-muscle connection.",
-            rating: 4.5,
-            rarity: "common",
-            slug: "cable-flyes"
-        }
-    ],
-    "shoulders": [
-        {
-            name: "Barbell Overhead Press",
-            description: "The king of shoulder exercises. Builds massive delts while also working the triceps and upper chest.",
-            rating: 5,
-            rarity: "common",
-            slug: "barbell-overhead-press"
-        },
-        {
-            name: "Lateral Raises",
-            description: "The best exercise for building wider shoulders. Directly targets the lateral deltoid head.",
-            rating: 4.5,
-            rarity: "common",
-            slug: "lateral-raises"
-        }
-    ],
-    "upper chest": [
-        {
-            name: "Incline Dumbbell Press",
-            description: "An excellent upper chest builder that allows for a greater range of motion than barbell variations.",
-            rating: 5,
-            rarity: "common",
-            slug: "incline-dumbbell-press"
-        },
-        {
-            name: "Incline Barbell Press",
-            description: "A compound movement targeting the upper pectorals with heavy weight capability.",
-            rating: 5,
-            rarity: "common",
-            slug: "incline-barbell-press"
-        }
-    ]
-};
-
-document.addEventListener('DOMContentLoaded', function() {
     // Get exercise ID from URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const exerciseId = urlParams.get('id');
     
-    if (exerciseId && exerciseDetailData[exerciseId]) {
+    if (exerciseId && getExerciseById(exerciseId)) {
         loadExerciseDetail(exerciseId);
     } else {
-        // Default to bench press if no ID provided
-        loadExerciseDetail('bench-press');
+        // Default to first exercise if no ID provided
+        const firstExercise = exercises[0];
+        if (firstExercise) {
+            loadExerciseDetail(firstExercise.id);
+        }
     }
 });
 
 function loadExerciseDetail(exerciseId) {
-    const exercise = exerciseDetailData[exerciseId];
+    const exercise = getExerciseById(exerciseId);
     
     if (!exercise) {
         console.error('Exercise not found:', exerciseId);
@@ -152,81 +31,107 @@ function loadExerciseDetail(exerciseId) {
     // Update exercise name
     document.getElementById('exercise-name').textContent = exercise.name;
     
-    // Update target muscles
-    document.getElementById('target-muscle').textContent = exercise.targetMuscle;
-    document.getElementById('secondary-muscle').textContent = exercise.secondaryMuscles;
+    // Update target muscles - primaryMuscles is an ARRAY
+    const primaryMuscle = exercise.primaryMuscles?.[0] || 'N/A';
+    document.getElementById('target-muscle').textContent = primaryMuscle;
+    
+    // Update secondary muscles - also an ARRAY
+    const secondaryMuscles = exercise.secondaryMuscles?.join(', ') || 'None';
+    document.getElementById('secondary-muscle').textContent = secondaryMuscles;
     
     // Update equipment
-    document.getElementById('equipment-needed').textContent = exercise.equipment;
+    document.getElementById('equipment-needed').textContent = exercise.equipment || 'N/A';
     
-    // Update GIF (placeholder for now, will use ExerciseDB later)
+    // Update images using the helper function
     const gifContainer = document.getElementById('exercise-gif');
-    if (exercise.gifUrl) {
-        gifContainer.innerHTML = `<img src="${exercise.gifUrl}" alt="${exercise.name}">`;
+    const imageUrl1 = getExerciseImageUrl(exercise, 0); // First image
+    const imageUrl2 = getExerciseImageUrl(exercise, 1); // Second image
+
+    if (imageUrl1) {
+        // Create both images stacked
+        gifContainer.innerHTML = `
+            <img src="${imageUrl1}" alt="${exercise.name}" class="image-1">
+            ${imageUrl2 ? `<img src="${imageUrl2}" alt="${exercise.name}" class="image-2">` : ''}
+        `;
     } else {
-        gifContainer.innerHTML = '<span class="placeholder-text">Gif</span>';
+        gifContainer.innerHTML = '<span class="placeholder-text">No Image</span>';
     }
     
     // Update instructions
     const instructionsList = document.getElementById('instructions-list');
-    instructionsList.innerHTML = exercise.instructions
-        .map(instruction => `<li>${instruction}</li>`)
-        .join('');
+    if (exercise.instructions && exercise.instructions.length > 0) {
+        instructionsList.innerHTML = exercise.instructions
+            .map(instruction => `<li>${instruction}</li>`)
+            .join('');
+    } else {
+        instructionsList.innerHTML = '<li>No instructions available</li>';
+    }
     
     // Load similar exercises
-    loadSimilarExercises(exercise.targetMuscle);
+    loadSimilarExercises(primaryMuscle);
 }
 
-function loadSimilarExercises(bodyPart) {
+function loadSimilarExercises(primaryMuscle) {
     // Update similar exercises heading
-    document.getElementById('similar-bodypart').textContent = bodyPart;
+    document.getElementById('similar-bodypart').textContent = primaryMuscle;
     
-    // Get similar exercises for this body part
-    const exercises = similarExercises[bodyPart] || [];
+    // Get similar exercises for this body part using the helper function
+    const exercises = getExercisesByTarget(primaryMuscle);
+    
+    // Limit to 6 similar exercises
+    const limitedExercises = exercises.slice(0, 6);
     
     const container = document.getElementById('similar-exercises-container');
     
-    if (exercises.length === 0) {
+    if (limitedExercises.length === 0) {
         container.innerHTML = '<p style="color: #999;">No similar exercises found.</p>';
         return;
     }
     
-    container.innerHTML = exercises.map(exercise => `
-        <div class="similar-card" onclick="navigateToExercise('${exercise.slug}')">
-            <div class="similar-card-info">
-                <h3>${exercise.name}</h3>
-                <p>${exercise.description}</p>
-                <div class="similar-rating">
-                    ${generateStars(exercise.rating)}
-                    <span class="similar-rating-text">${exercise.rating}</span>
+    container.innerHTML = limitedExercises.map(exercise => {
+        const primaryMuscle = exercise.primaryMuscles?.[0] || 'N/A';
+        const equipment = exercise.equipment || 'N/A';
+        
+        return `
+        <div class="exercise-card" onclick="navigateToExercise('${exercise.id}')">
+            <div class="exercise-info">
+                <div class="exercise-header">
+                    <h3>${capitalizeWords(exercise.name)}</h3>
                 </div>
-                <span class="rarity-badge rarity-${exercise.rarity}">${exercise.rarity}</span>
+                <div class="exercise-meta">
+                    <span class="meta-tag">${capitalizeFirst(primaryMuscle)}</span>
+                    <span class="meta-tag">${capitalizeFirst(equipment)}</span>
+                    ${exercise.level ? `<span class="meta-tag">${capitalizeFirst(exercise.level)}</span>` : ''}
+                </div>
+                <p>${exercise.instructions?.[0] || 'Target: ' + primaryMuscle}</p>
             </div>
-            <div class="similar-card-action">
-                <button class="video-btn" onclick="event.stopPropagation(); alert('Video functionality coming soon!')">Video</button>
+            <div class="exercise-actions">
+                <button class="action-btn" onclick="event.stopPropagation(); navigateToExercise('${exercise.id}')">View Details</button>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 }
 
-function generateStars(rating) {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    let stars = '';
-    
-    for (let i = 0; i < fullStars; i++) {
-        stars += '<span>★</span>';
-    }
-    
-    if (hasHalfStar) {
-        stars += '<span>⯨</span>';
-    }
-    
-    return stars;
+// Add these helper functions
+function capitalizeFirst(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function navigateToExercise(exerciseSlug) {
-    window.location.href = `exercise.html?id=${exerciseSlug}`;
+function capitalizeWords(str) {
+    if (!str) return '';
+    return str.split(' ').map(word => capitalizeFirst(word)).join(' ');
+}
+
+function navigateToExercise(exerciseId) {
+    window.location.href = `exercise.html?id=${exerciseId}`;
+}
+
+// Make function available globally
+window.navigateToExercise = navigateToExercise;
+function navigateToExercise(exerciseId) {
+    window.location.href = `exercise.html?id=${exerciseId}`;
 }
 
 // Make function available globally
