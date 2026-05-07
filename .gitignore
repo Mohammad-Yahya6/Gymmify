@@ -12,6 +12,7 @@ node_modules/
 # Future environment variables 
 .env
 .env.local
+curated-exercises.json
 
 # Logs
 *.log

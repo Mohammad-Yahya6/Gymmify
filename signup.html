@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymmify — Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red:        #E8292A;
+            --red-dark:   #B01E1F;
+            --red-glow:   rgba(232, 41, 42, 0.25);
+            --bg:         #080808;
+            --surface:    #111111;
+            --surface-2:  #1A1A1A;
+            --border:     rgba(255,255,255,0.07);
+            --text:       #F0F0F0;
+            --muted:      #666666;
+            --white:      #FFFFFF;
+            --font-display: 'Bebas Neue', sans-serif;
+            --font-body:    'DM Sans', sans-serif;
+        }
+        :root.light-mode {
+            --bg: #F5F5F5; --surface: #FFFFFF; --surface-2: #EBEBEB;
+            --border: rgba(0,0,0,0.1); --text: #111111; --muted: #666666; --white: #111111;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.4;
+        }
+
+        .left-panel {
+            position: relative;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            overflow: hidden;
+        }
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -100px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(232,41,42,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .left-panel::after {
+            content: 'YOUR\AJOURNEY\ASTARTS\ANOW';
+            white-space: pre;
+            position: absolute;
+            bottom: 3rem; left: 3rem;
+            font-family: var(--font-display);
+            font-size: clamp(4rem, 8vw, 7rem);
+            line-height: 0.88;
+            letter-spacing: 4px;
+            color: var(--white);
+            opacity: 0.04;
+            pointer-events: none;
+            user-select: none;
+        }
+        .panel-logo { font-family: var(--font-display); font-size: 2rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
+        .panel-logo span { color: var(--red); }
+        .panel-quote { position: relative; z-index: 1; }
+        .panel-quote blockquote { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.05; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 1.5rem; }
+        .panel-quote blockquote span { color: var(--red); }
+        .panel-quote p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+        .corner-accent { position: absolute; top: 0; left: 0; width: 60px; height: 60px; border-top: 1px solid var(--red); border-left: 1px solid var(--red); pointer-events: none; }
+        .corner-accent-br { position: absolute; bottom: 0; right: 0; width: 60px; height: 60px; border-bottom: 1px solid var(--red); border-right: 1px solid var(--red); pointer-events: none; }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem 4rem;
+            max-width: 520px;
+            width: 100%;
+            margin: 0 auto;
+            overflow-y: auto;
+        }
+        .form-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
+        .form-title { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 3px; text-transform: uppercase; color: var(--white); line-height: 0.95; margin-bottom: 0.5rem; }
+        .form-subtitle { font-size: 0.9rem; color: var(--muted); font-weight: 300; margin-bottom: 2.5rem; }
+        .form-subtitle a { color: var(--red); text-decoration: none; font-weight: 500; }
+        .form-subtitle a:hover { text-decoration: underline; }
+
+        .oauth-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.9rem; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-bottom: 1.5rem; }
+        .oauth-btn:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+
+        .divider { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .divider span { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+
+        .field { margin-bottom: 1.25rem; }
+        .field label { display: block; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+        .field input { width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--white); padding: 0.9rem 1rem; font-size: 0.95rem; font-family: var(--font-body); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .field input:focus { border-color: var(--red); box-shadow: 0 0 0 3px var(--red-glow); }
+        .field input::placeholder { color: var(--muted); }
+
+        .password-hint { font-size: 0.75rem; color: var(--muted); margin-top: 0.4rem; }
+
+        .submit-btn { width: 100%; background: var(--red); color: var(--white); border: none; padding: 1rem; font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 3px; text-transform: uppercase; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; margin-bottom: 1rem; }
+        .submit-btn:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 30px var(--red-glow); }
+        .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .terms { font-size: 0.75rem; color: var(--muted); text-align: center; line-height: 1.6; }
+        .terms a { color: var(--red); text-decoration: none; }
+
+        .error-msg { background: rgba(232,41,42,0.1); border: 1px solid rgba(232,41,42,0.3); color: var(--red); padding: 0.75rem 1rem; font-size: 0.85rem; margin-bottom: 1rem; display: none; }
+        .error-msg.visible { display: block; }
+        .success-msg { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); color: #4CAF50; padding: 0.75rem 1rem; font-size: 0.85rem; margin-bottom: 1rem; display: none; }
+        .success-msg.visible { display: block; }
+
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .left-panel { display: none; }
+            .right-panel { padding: 3rem 2rem; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="left-panel">
+        <div class="corner-accent"></div>
+        <div class="corner-accent-br"></div>
+        <a href="index.html" class="panel-logo">GYMM<span>I</span>FY</a>
+        <div class="panel-quote">
+            <blockquote>Start where<br>you are.<br>Use what <span>you have.</span></blockquote>
+            <p>Your transformation begins with a single step.</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <p class="form-eyebrow">Get Started</p>
+        <h1 class="form-title">Create Account</h1>
+        <p class="form-subtitle">Already have one? <a href="login.html">Sign in →</a></p>
+
+        <button class="oauth-btn" id="google-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.166 6.656 3.58 9 3.58z"/></svg>
+            Continue with Google
+        </button>
+
+        <div class="divider"><span>or sign up with email</span></div>
+
+        <div class="error-msg" id="error-msg"></div>
+        <div class="success-msg" id="success-msg"></div>
+
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+        </div>
+
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="new-password">
+            <p class="password-hint">Minimum 6 characters</p>
+        </div>
+
+        <div class="field">
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="••••••••" autocomplete="new-password">
+        </div>
+
+        <button class="submit-btn" id="signup-btn">Create Account</button>
+
+        <p class="terms">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://tjzlpsgwhvsrphnxicjo.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_95trdNvlzTRz4l7pdiDSGA_zoyOmkBD';
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const errorMsg  = document.getElementById('error-msg');
+        const successMsg = document.getElementById('success-msg');
+        const signupBtn = document.getElementById('signup-btn');
+
+        function showError(msg) { errorMsg.textContent = msg; errorMsg.classList.add('visible'); successMsg.classList.remove('visible'); }
+        function showSuccess(msg) { successMsg.textContent = msg; successMsg.classList.add('visible'); errorMsg.classList.remove('visible'); }
+
+        signupBtn.addEventListener('click', async () => {
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm  = document.getElementById('confirm-password').value;
+
+            if (!email || !password || !confirm) { showError('Please fill in all fields.'); return; }
+            if (password.length < 6) { showError('Password must be at least 6 characters.'); return; }
+            if (password !== confirm) { showError('Passwords do not match.'); return; }
+
+            signupBtn.disabled = true;
+            signupBtn.textContent = 'Creating account…';
+
+            const { error } = await db.auth.signUp({ email, password });
+
+            if (error) {
+                showError(error.message);
+                signupBtn.disabled = false;
+                signupBtn.textContent = 'Create Account';
+            } else {
+                showSuccess('Account created! Check your email to confirm, then sign in.');
+                signupBtn.disabled = true;
+            }
+        });
+
+        document.getElementById('confirm-password').addEventListener('keyup', e => {
+            if (e.key === 'Enter') signupBtn.click();
+        });
+
+        document.getElementById('google-btn').addEventListener('click', async () => {
+            await db.auth.signInWithOAuth({
+                provider: 'google',
+                options: { redirectTo: window.location.origin + '/login.html?oauth=1' }
+            });
+        });
+    </script>
+</body>
+</html>

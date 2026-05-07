@@ -3,136 +3,366 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise Detail - Gymmify</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="exercise-detail.css" />
-    <script src="exercise-data.js" defer></script>
-    <script src="exercise-detail.js" defer></script>
-</head>
+    <title>Gymmify — Exercise Detail</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ===== MAIN ===== */
+        main { min-height: 100vh; padding-top: 68px; }
 
+        .back-nav { max-width: 1300px; margin: 0 auto; padding: 1.5rem 2.5rem 0; }
+        .back-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: none; border: none; color: var(--muted); font-family: var(--font-body); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; padding: 0; transition: color 0.2s; }
+        .back-btn:hover { color: var(--text); }
+        .back-btn svg { transition: transform 0.2s; }
+        .back-btn:hover svg { transform: translateX(-3px); }
+
+        .exercise-hero { max-width: 1300px; margin: 0 auto; padding: 2.5rem 2.5rem 0; }
+        .exercise-content { display: grid; grid-template-columns: 1fr 1.1fr; gap: 4rem; align-items: start; }
+        .exercise-media { position: sticky; top: 88px; }
+        .media-container { aspect-ratio: 4/3; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+        .media-container::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(232,41,42,0.12) 0%, transparent 60%); pointer-events: none; z-index: 1; }
+        .media-placeholder { display: flex; flex-direction: column; align-items: center; gap: 1rem; color: #444; }
+        .media-placeholder svg { opacity: 0.4; }
+        .media-placeholder span { font-family: var(--font-display); font-size: 1rem; letter-spacing: 3px; color: #444; }
+        .media-container img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; transition: opacity 0.6s ease; }
+        .media-container .image-1 { opacity: 1; z-index: 1; }
+        .media-container .image-2 { opacity: 0; z-index: 2; }
+        .media-container:hover .image-1 { opacity: 0; }
+        .media-container:hover .image-2 { opacity: 1; }
+        .media-tags { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+        .tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.75rem; border: 1px solid var(--border); border-radius: 2px; color: var(--muted); background: var(--surface); }
+        .tag.primary { border-color: var(--red); color: var(--red); background: rgba(232,41,42,0.12); }
+
+        .exercise-info-panel { padding-top: 0.25rem; }
+        .eyebrow { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .eyebrow-line { width: 32px; height: 2px; background: var(--red); }
+        .eyebrow-text { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 600; }
+        .exercise-name { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; letter-spacing: 2px; color: var(--text); margin-bottom: 2rem; }
+
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 2.5rem; }
+        .stat-cell { background: var(--surface); padding: 1.25rem 1.5rem; }
+        .stat-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #444; font-weight: 600; margin-bottom: 0.4rem; }
+        .stat-value { font-size: 1rem; font-weight: 600; color: var(--text); }
+        .stat-value.highlight { color: var(--red); }
+
+        .instructions-section { border-top: 1px solid var(--border); padding-top: 2rem; }
+        .section-heading { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 2px; color: var(--text); margin-bottom: 1.5rem; }
+        .instructions-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0; }
+        .instructions-list li { display: flex; gap: 1.25rem; align-items: flex-start; padding: 1.1rem 0; border-bottom: 1px solid var(--border); color: #aaa; font-size: 0.92rem; line-height: 1.7; transition: color 0.2s; }
+        .instructions-list li:last-child { border-bottom: none; }
+        .instructions-list li:hover { color: var(--text); }
+        .step-num { font-family: var(--font-display); font-size: 1.4rem; color: var(--red); line-height: 1; flex-shrink: 0; width: 28px; padding-top: 2px; }
+
+        .similar-section { max-width: 1300px; margin: 5rem auto 0; padding: 0 2.5rem 4rem; }
+        .similar-header { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+        .similar-header h2 { font-family: var(--font-display); font-size: 2rem; letter-spacing: 2px; color: var(--text); }
+        .similar-header h2 span { color: var(--red); }
+        .similar-count { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+        .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); align-items: stretch; }
+
+        .exercise-card { background: var(--surface); padding: 1.75rem 1.5rem; cursor: pointer; position: relative; overflow: hidden; transition: background 0.2s; display: flex; flex-direction: column; height: 100%; min-height: 320px; }
+        .exercise-card::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--red); transition: width 0.3s ease; }
+        .exercise-card:hover::after { width: 100%; }
+        .exercise-card:hover { background: var(--surface-2); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .card-name { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 1px; color: var(--text); line-height: 1.1; margin-bottom: 0.25rem; }
+        .card-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0 1.25rem; }
+        .card-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; flex: 1; margin-bottom: 2rem; padding-top: 0.75rem; border-top: 1px solid var(--border); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-action { margin-top: auto; display: flex; justify-content: center; }
+        .difficulty-badge { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 2px; flex-shrink: 0; }
+        .difficulty-badge.common   { background: rgba(76,175,80,0.15); color: #4caf50; border: 1px solid rgba(76,175,80,0.3); }
+        .difficulty-badge.uncommon { background: rgba(255,193,7,0.15); color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
+        .difficulty-badge.rare     { background: rgba(232,41,42,0.12); color: var(--red); border: 1px solid rgba(232,41,42,0.3); }
+        .meta-tag { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.2rem 0.6rem; background: var(--bg); border: 1px solid var(--border); border-radius: 2px; color: var(--muted); }
+        .action-btn { width: 100%; padding: 0.65rem 1rem; background: transparent; border: 1px solid var(--border); color: var(--text); font-family: var(--font-body); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+        .action-btn:hover { border-color: var(--red); color: var(--red); background: rgba(232,41,42,0.12); }
+        .action-btn.primary { background: var(--red); border-color: var(--red); color: #fff; }
+        .action-btn.primary:hover { background: var(--red-dark); }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up   { animation: fadeUp 0.5s ease both; }
+        .fade-up-2 { animation: fadeUp 0.5s 0.1s ease both; }
+        .fade-up-3 { animation: fadeUp 0.5s 0.2s ease both; }
+        .fade-up-4 { animation: fadeUp 0.5s 0.3s ease both; }
+
+        @media (max-width: 900px) {
+            .exercise-content { grid-template-columns: 1fr; gap: 2.5rem; }
+            .exercise-media { position: relative; top: 0; }
+            .exercise-name { font-size: 2.5rem; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .exercise-hero, .similar-section, .back-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .similar-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) { .exercise-name { font-size: 2rem; } .stat-grid { grid-template-columns: 1fr; } }
+
+    </style>
+</head>
 <body>
+
+
+    <!-- =================== HEADER =================== -->
     <header>
-        <div class="logo">
-            <a href="index.html">Gymmify</a>
-        </div>
-        
-        <button class="menu-toggle" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        
-        <nav>
+        <a href="index.html" class="logo">GYMM<span>I</span>FY</a>
+        <nav id="main-nav">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li><a href="#">About ▼</a></li>
                 <li><a href="bodymap.html">Body Map</a></li>
+                <li><a href="exercises.html" class="active">Exercises</a></li>
                 <li><a href="#">Nutrition</a></li>
-                <li><a href="exercises.html">Exercise</a></li>
+                <li><a href="#">About</a></li>
             </ul>
         </nav>
-        
-        <div class="icons">
-            <img src="/images/brightness.png" alt="Theme toggle" aria-label="Toggle theme">
-            <img src="/images/pfp.png" alt="User profile" aria-label="User profile">
+        <div class="header-actions">
+            <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+                <img src="/images/brightness.png" alt="Theme">
+            </button>
+            <button class="icon-btn" aria-label="Login or sign up" title="Login / Sign up" onclick="window.location.href='login.html'">
+                <img src="/images/pfp.png" alt="Account">
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
-    <main class="exercise-detail-main">
-        <!-- Back Button -->
-        <div class="back-nav">
+    <main>
+
+        <!-- BACK NAV -->
+        <div class="back-nav fade-up">
             <button class="back-btn" onclick="window.history.back()">
-                <span style="text-decoration: none;">←</span> Back to Exercises
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Back to Exercises
             </button>
         </div>
 
-        <!-- Exercise Detail Section -->
+        <!-- EXERCISE HERO -->
         <section class="exercise-hero">
             <div class="exercise-content">
-                <!-- Left side: GIF/Video -->
-                <div class="exercise-media">
+
+                <!-- LEFT: MEDIA -->
+                <div class="exercise-media fade-up-2">
                     <div class="media-container" id="exercise-gif">
-                        <span class="placeholder-text">Gif</span>
+                        <div class="media-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect x="6" y="10" width="36" height="28" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M20 18L30 24L20 30V18Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                            </svg>
+                            <span>GIF / VIDEO</span>
+                        </div>
+                    </div>
+
+                    <div class="media-tags">
+                        <span class="tag primary" id="tag-bodypart">{bodypart}</span>
+                        <span class="tag" id="tag-equipment">{equipment}</span>
+                        <span class="tag" id="tag-difficulty">Beginner</span>
                     </div>
                 </div>
 
-                <!-- Right side: Exercise Info -->
-                <div class="exercise-info-panel">
-                    <h1 id="exercise-name">Exercise</h1>
-                    
-                    <div class="info-row">
-                        <span class="info-label">Targets the</span>
-                        <span class="info-value" id="target-muscle">{bodypart}</span>
-                        <span class="info-label">and the</span>
-                        <span class="info-value" id="secondary-muscle">{secondary muscles}</span>
+                <!-- RIGHT: INFO -->
+                <div class="exercise-info-panel fade-up-3">
+
+                    <div class="eyebrow">
+                        <div class="eyebrow-line"></div>
+                        <span class="eyebrow-text">Exercise Detail</span>
                     </div>
 
-                    <div class="info-row">
-                        <span class="info-label">Equipment Needed :</span>
-                        <span class="info-value" id="equipment-needed">{equipment}</span>
+                    <h1 class="exercise-name" id="exercise-name">Exercise Name</h1>
+
+                    <div class="stat-grid">
+                        <div class="stat-cell">
+                            <div class="stat-label">Primary Muscle</div>
+                            <div class="stat-value highlight" id="target-muscle">{bodypart}</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="stat-label">Secondary</div>
+                            <div class="stat-value" id="secondary-muscle">{secondary}</div>
+                        </div>
+                        <div class="stat-cell">
+                            <div class="stat-label">Equipment</div>
+                            <div class="stat-value" id="equipment-needed">{equipment}</div>
+                        </div>
                     </div>
 
-                    <div class="instructions-section">
-                        <h3>Instructions:</h3>
-                        <ol id="instructions-list">
-                            <li>{1}</li>
-                            <li>{2}</li>
-                            <li>{3}</li>
-                            <li>{4}</li>
-                            <li>{5}</li>
+                    <div class="instructions-section fade-up-4">
+                        <div class="section-heading">INSTRUCTIONS</div>
+                        <ol class="instructions-list" id="instructions-list">
+                            <li><span class="step-num">01</span><span>{Step one — describe starting position and setup}</span></li>
+                            <li><span class="step-num">02</span><span>{Step two — describe the movement initiation}</span></li>
+                            <li><span class="step-num">03</span><span>{Step three — describe the main movement phase}</span></li>
+                            <li><span class="step-num">04</span><span>{Step four — describe peak contraction or hold}</span></li>
+                            <li><span class="step-num">05</span><span>{Step five — describe the return and breathing}</span></li>
                         </ol>
                     </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- Similar Exercises Section -->
-        <section class="similar-exercises">
-            <h2>Similar exercises for <span id="similar-bodypart">{bodypart}</span></h2>
-            
-            <div class="similar-exercises-grid" id="similar-exercises-container">
-                <!-- Similar exercise cards will be dynamically generated -->
+        <!-- SIMILAR EXERCISES -->
+        <section class="similar-section">
+            <div class="similar-header">
+                <h2>Similar for <span id="similar-bodypart">{bodypart}</span></h2>
+                <span class="similar-count">— 6 exercises</span>
+            </div>
+
+            <div class="similar-grid" id="similar-exercises-container">
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise One</div>
+                        <span class="difficulty-badge common">Common</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Barbell</span>
+                        <span class="meta-tag">Chest</span>
+                    </div>
+                    <p class="card-desc">A foundational compound movement targeting the chest with full range of motion.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise Two</div>
+                        <span class="difficulty-badge uncommon">Uncommon</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Dumbbell</span>
+                        <span class="meta-tag">Shoulders</span>
+                    </div>
+                    <p class="card-desc">Targets the anterior deltoid with strict form and controlled tempo.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise Three</div>
+                        <span class="difficulty-badge rare">Rare</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Cable</span>
+                        <span class="meta-tag">Back</span>
+                    </div>
+                    <p class="card-desc">An advanced isolation movement demanding excellent mind-muscle connection.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise Four</div>
+                        <span class="difficulty-badge common">Common</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Bodyweight</span>
+                        <span class="meta-tag">Core</span>
+                    </div>
+                    <p class="card-desc">Build core stability and endurance with this essential movement pattern.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise Five</div>
+                        <span class="difficulty-badge uncommon">Uncommon</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Machine</span>
+                        <span class="meta-tag">Legs</span>
+                    </div>
+                    <p class="card-desc">Isolate the quadriceps with full extension under controlled resistance.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="card-header">
+                        <div class="card-name">Exercise Six</div>
+                        <span class="difficulty-badge rare">Rare</span>
+                    </div>
+                    <div class="card-meta">
+                        <span class="meta-tag">Kettlebell</span>
+                        <span class="meta-tag">Full Body</span>
+                    </div>
+                    <p class="card-desc">A high-skill movement that demands coordination, power, and mobility.</p>
+                    <div class="card-action"><button class="action-btn primary">View Details</button></div>
+                </div>
             </div>
         </section>
+
     </main>
 
+    <!-- =================== FOOTER =================== -->
     <footer>
-        <div class="footer-top">
-            <div class="footer-left">
-                <div class="brand-row">
-                    <h2>Gymmify</h2>
-                </div>
-                <nav class="top-links">
-                    <a href="index.html">Home</a>
-                    <a href="bodymap.html">Body Map</a>
-                    <a href="#">Meal Plans</a>
-                    <a href="#">About</a>
-                    <a href="#">Nutrition</a>
-                </nav>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">GYMM<span style="color:var(--red)">I</span>FY</a>
+                <p>Your all-in-one fitness platform. Train smarter, move better, build the physique you want.</p>
             </div>
-
-            <div class="footer-right">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" aria-label="Instagram">
-                        <img src="/images/instablack.png" alt="Instagram">
-                    </a>
-                    <a href="#" aria-label="Twitter">
-                        <img src="/images/twitterblack.png" alt="Twitter">
-                    </a>
-                    <a href="#" aria-label="TikTok">
-                        <img src="/images/tiktokblack.png" alt="TikTok">
-                    </a>
-                    <a href="#" aria-label="Facebook">
-                        <img src="/images/faceblack.png" alt="Facebook">
-                    </a>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="bodymap.html">Body Map</a></li>
+                    <li><a href="exercises.html">Exercises</a></li>
+                    <li><a href="#">Meal Plans</a></li>
+                    <li><a href="#">Nutrition</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-row">
+                    <div class="social-icon"><img src="/images/instablack.png" alt="Instagram"></div>
+                    <div class="social-icon"><img src="/images/twitterblack.png" alt="Twitter"></div>
+                    <div class="social-icon"><img src="/images/tiktokblack.png" alt="TikTok"></div>
+                    <div class="social-icon"><img src="/images/faceblack.png" alt="Facebook"></div>
                 </div>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>All Copyright laws reserved ©</p>
+            <p>© 2025 Gymmify. All rights reserved.</p>
+            <p>Privacy · Terms · Cookies</p>
         </div>
     </footer>
+
+    <script src="exercise-data.js" defer></script>
+    <script src="exercise-detail.js" defer></script>
+    <script>
+        /* ===== HAMBURGER ===== */
+        const toggle = document.getElementById('menu-toggle');
+        const nav    = document.getElementById('main-nav');
+        toggle.addEventListener('click', () => {
+            toggle.classList.toggle('active');
+            nav.classList.toggle('active');
+            document.body.style.overflow = nav.classList.contains('active') ? 'hidden' : '';
+        });
+        nav.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+                toggle.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                toggle.classList.remove('active');
+                nav.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        /* ===== THEME TOGGLE ===== */
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+    </script>
+
 </body>
 </html>

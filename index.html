@@ -3,107 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gymmify - Your All-in-One Fitness App</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
-</head>
+    <title>Gymmify — Your All-in-One Fitness App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; right: 25%;
+            width: 1px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--border), transparent);
+            pointer-events: none;
+        }
+        .hero-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
+        .hero-title { font-family: var(--font-display); font-size: clamp(4rem, 10vw, 9rem); line-height: 0.92; letter-spacing: 3px; text-transform: uppercase; color: var(--white); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.7s 0.25s forwards; }
+        .hero-title em { font-style: normal; color: var(--red); display: block; }
+        .hero-sub { font-size: 1.05rem; font-weight: 300; color: var(--muted); max-width: 520px; margin: 0 auto 3rem; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
+        .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
 
+        .btn-primary { background: var(--red); color: var(--white); font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; padding: 1rem 2.5rem; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; }
+        .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 30px var(--red-glow); }
+        .btn-outline { background: transparent; color: var(--white); font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; padding: 1rem 2.5rem; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.15s; }
+        .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.04); transform: translateY(-2px); }
+
+        .scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; opacity: 0; animation: fadeUp 0.7s 1s forwards; }
+        .scroll-hint span { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+        .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--red), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+        @keyframes scrollPulse { 0%, 100% { opacity: 0.3; transform: scaleY(0.8); } 50% { opacity: 1; transform: scaleY(1); } }
+
+        /* ===== STATS STRIP ===== */
+        .stats-strip { display: flex; justify-content: center; gap: 0; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; }
+        .stat-item { flex: 1; max-width: 280px; text-align: center; padding: 2.5rem 2rem; border-right: 1px solid var(--border); }
+        .stat-item:last-child { border-right: none; }
+        .stat-number { font-family: var(--font-display); font-size: 3.5rem; letter-spacing: 2px; color: var(--white); line-height: 1; margin-bottom: 0.4rem; }
+        .stat-number span { color: var(--red); }
+        .stat-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+
+        /* ===== FEATURES ===== */
+        .feature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; padding: 6rem 3rem; max-width: 1280px; margin: 0 auto; border-top: 1px solid var(--border); }
+        .feature-row.reverse { direction: rtl; }
+        .feature-row.reverse > * { direction: ltr; }
+        .feature-text { max-width: 480px; }
+        .feature-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--red); background: rgba(232,41,42,0.1); padding: 0.3rem 0.8rem; margin-bottom: 1.5rem; }
+        .feature-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: 2px; text-transform: uppercase; color: var(--white); line-height: 1.05; margin-bottom: 1.2rem; }
+        .feature-desc { font-size: 1rem; color: var(--muted); font-weight: 300; line-height: 1.8; margin-bottom: 2rem; }
+        .feature-link { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--white); border-bottom: 1px solid var(--red); padding-bottom: 2px; transition: gap 0.2s, color 0.2s; }
+        .feature-link:hover { gap: 1rem; color: var(--red); }
+        .feature-link::after { content: '→'; }
+        .feature-card { background: var(--surface); border: 1px solid var(--border); aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--red-glow) 0%, transparent 60%); }
+        .feature-card img { width: 55%; opacity: 0.9; position: relative; z-index: 1; filter: drop-shadow(0 0 30px var(--red-glow)); transition: transform 0.4s ease; }
+        .feature-card:hover img { transform: scale(1.05) rotate(-2deg); }
+        .feature-card .card-num { position: absolute; bottom: 1.5rem; right: 1.5rem; font-family: var(--font-display); font-size: 5rem; color: rgba(255,255,255,0.03); line-height: 1; }
+
+        /* ===== CTA BANNER ===== */
+        .cta-section { background: var(--red); padding: 6rem 3rem; text-align: center; position: relative; overflow: hidden; }
+        .cta-section::before { content: 'GYMMIFY'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-display); font-size: 18vw; color: rgba(0,0,0,0.12); white-space: nowrap; pointer-events: none; letter-spacing: 8px; }
+        .cta-title { font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: 3px; text-transform: uppercase; color: var(--white); margin-bottom: 1.5rem; position: relative; }
+        .cta-sub { font-size: 1.05rem; color: rgba(255,255,255,0.75); font-weight: 300; margin-bottom: 3rem; position: relative; }
+        .btn-cta { background: var(--white); color: var(--red); font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; padding: 1rem 3rem; border: none; cursor: pointer; position: relative; transition: transform 0.15s, box-shadow 0.2s; }
+        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero-title { font-size: clamp(3rem, 12vw, 6rem); }
+            .stats-strip { flex-direction: column; }
+            .stat-item { border-right: none; border-bottom: 1px solid var(--border); max-width: 100%; }
+            .stat-item:last-child { border-bottom: none; }
+            .feature-row { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; direction: ltr; }
+            .feature-row.reverse { direction: ltr; }
+            .cta-section { padding: 4rem 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .hero { padding: 100px 1.5rem 5rem; }
+            .hero-title { font-size: clamp(2.8rem, 14vw, 4.5rem); }
+        }
+    </style>
+</head>
 <body>
+
     <header>
-        <div class="logo">
-            <a href="index.html">Gymmify</a>
-        </div>
-        
-        <button class="menu-toggle" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        
-        <nav>
+        <a href="index.html" class="logo">GYMM<span>I</span>FY</a>
+        <nav id="main-nav">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#">About ▼</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="bodymap.html">Body Map</a></li>
+                <li><a href="exercises.html">Exercises</a></li>
                 <li><a href="#">Nutrition</a></li>
-                <li><a href="exercises.html">Exercise</a></li>
+                <li><a href="#">About</a></li>
             </ul>
         </nav>
-        
-        <div class="icons">
-            <img src="/images/brightness.png" alt="Theme toggle" aria-label="Toggle theme">
-            <img src="/images/pfp.png" alt="User profile" aria-label="User profile">
+        <div class="header-actions">
+            <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme" title="Toggle theme">
+                <img src="/images/brightness.png" alt="Theme">
+            </button>
+            <button class="icon-btn" data-auth aria-label="Login or sign up" title="Login / Sign up">
+                <img src="/images/pfp.png" alt="Account">
+            </button>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </header>
 
-    <main>
-        <section class="feature">
-            <div class="text">
-                <h2>Welcome to Gymmify, your all-in-one gym and fitness app.</h2>
-            </div>
-            <div class="image">
-                <img src="/images/heart.png" alt="Heart health icon">
-            </div>
-        </section>
+    <section class="hero">
+        <p class="hero-eyebrow">Your All-in-One Fitness Platform</p>
+        <h1 class="hero-title">Train<br><em>Smarter.</em></h1>
+        <p class="hero-sub">From body-mapped muscle targeting to tailored workout plans — everything you need to build your best physique.</p>
+        <div class="hero-ctas">
+            <button class="btn-primary" onclick="window.location.href='bodymap.html'">Explore Body Map</button>
+            <button class="btn-outline" onclick="window.location.href='exercises.html'">Browse Exercises</button>
+        </div>
+        <div class="scroll-hint">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
 
-        <section class="feature">
-            <div class="image">
-                <img src="/images/workouts.png" alt="Workout illustration">
-            </div>
-            <div class="text">
-                <h2>Everything from basic body movements to tailored workout plans</h2>
-                <button>Explore Workouts</button>
-            </div>
-        </section>
+    <div class="stats-strip">
+        <div class="stat-item"><div class="stat-number">800<span>+</span></div><div class="stat-label">Exercises</div></div>
+        <div class="stat-item"><div class="stat-number">15<span>+</span></div><div class="stat-label">Muscle Groups</div></div>
+        <div class="stat-item"><div class="stat-number">6<span>+</span></div><div class="stat-label">Equipment Types</div></div>
+        <div class="stat-item"><div class="stat-number">3D</div><div class="stat-label">Body Mapping</div></div>
+    </div>
 
-        <section class="feature">
-            <div class="text">
-                <h2>Explore our different health plans to best suit your goals.</h2>
-                <button>Explore Plans</button>
-            </div>
-            <div class="image">
-                <img src="/images/balance.png" alt="Health plans illustration">
-            </div>
-        </section>
-    </main>
+    <div class="feature-row">
+        <div class="feature-card">
+            <img src="/images/workouts.png" alt="Body map illustration">
+            <span class="card-num">01</span>
+        </div>
+        <div class="feature-text">
+            <span class="feature-tag">Body Map</span>
+            <h2 class="feature-title">Click Any Muscle.<br>Find Your Exercise.</h2>
+            <p class="feature-desc">Our interactive body map lets you target any muscle group with a single click — instantly surfacing the best exercises for that area, from compound lifts to isolation moves.</p>
+            <a href="bodymap.html" class="feature-link">Explore Body Map</a>
+        </div>
+    </div>
+
+    <div class="feature-row reverse">
+        <div class="feature-text">
+            <span class="feature-tag">Exercise Library</span>
+            <h2 class="feature-title">800+ Movements.<br>Every Goal.</h2>
+            <p class="feature-desc">Filter by muscle group, equipment, and difficulty. Step-by-step instructions, visual demonstrations, and similar exercise recommendations — all in one place.</p>
+            <a href="exercises.html" class="feature-link">Browse Exercises</a>
+        </div>
+        <div class="feature-card">
+            <img src="/images/heart.png" alt="Fitness tracking illustration">
+            <span class="card-num">02</span>
+        </div>
+    </div>
+
+    <div class="feature-row">
+        <div class="feature-card">
+            <img src="/images/balance.png" alt="Nutrition plans illustration">
+            <span class="card-num">03</span>
+        </div>
+        <div class="feature-text">
+            <span class="feature-tag">Health Plans</span>
+            <h2 class="feature-title">Plans Built<br>Around You.</h2>
+            <p class="feature-desc">Whether you're cutting, bulking, or maintaining — explore structured training and nutrition plans tailored to your specific fitness goals.</p>
+            <a href="#" class="feature-link">Explore Plans</a>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2 class="cta-title">Ready to Start<br>Building?</h2>
+        <p class="cta-sub">Everything you need is already here. No excuses.</p>
+        <button class="btn-cta" onclick="window.location.href='bodymap.html'">Get Started Free</button>
+    </div>
 
     <footer>
-        <div class="footer-top">
-            <div class="footer-left">
-                <div class="brand-row">
-                    <h2>Gymmify</h2>
-                </div>
-                <nav class="top-links">
-                    <a href="index.html">Home</a>
-                    <a href="bodymap.html">Body Map</a>
-                    <a href="#">Meal Plans</a>
-                    <a href="#">About</a>
-                    <a href="#">Nutrition</a>
-                </nav>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">GYMM<span style="color:var(--red)">I</span>FY</a>
+                <p>Your all-in-one fitness platform. Train smarter, move better, build the physique you want.</p>
             </div>
-
-            <div class="footer-right">
-                <h3>Follow Us</h3>
-                <div class="social-icons">
-                    <a href="#" aria-label="Instagram">
-                        <img src="/images/instablack.png" alt="Instagram">
-                    </a>
-                    <a href="#" aria-label="Twitter">
-                        <img src="/images/twitterblack.png" alt="Twitter">
-                    </a>
-                    <a href="#" aria-label="TikTok">
-                        <img src="/images/tiktokblack.png" alt="TikTok">
-                    </a>
-                    <a href="#" aria-label="Facebook">
-                        <img src="/images/faceblack.png" alt="Facebook">
-                    </a>
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="bodymap.html">Body Map</a></li>
+                    <li><a href="exercises.html">Exercises</a></li>
+                    <li><a href="#">Meal Plans</a></li>
+                    <li><a href="#">Nutrition</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-row">
+                    <div class="social-icon"><img src="/images/instablack.png" alt="Instagram"></div>
+                    <div class="social-icon"><img src="/images/twitterblack.png" alt="Twitter"></div>
+                    <div class="social-icon"><img src="/images/tiktokblack.png" alt="TikTok"></div>
+                    <div class="social-icon"><img src="/images/faceblack.png" alt="Facebook"></div>
                 </div>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>All Copyright laws reserved ©</p>
+            <p>© 2025 Gymmify. All rights reserved.</p>
+            <p>Privacy · Terms · Cookies</p>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="shared.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

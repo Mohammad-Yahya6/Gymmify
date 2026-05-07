@@ -1,0 +1,167 @@
+/* =============================================
+   GYMMIFY — SHARED STYLES
+   Imported by all pages
+============================================= */
+
+/* ===== TOKENS ===== */
+:root {
+    --red:        #E8292A;
+    --red-dark:   #B01E1F;
+    --red-glow:   rgba(232, 41, 42, 0.25);
+    --bg:         #080808;
+    --surface:    #111111;
+    --surface-2:  #1A1A1A;
+    --border:     rgba(255,255,255,0.07);
+    --text:       #F0F0F0;
+    --muted:      #666666;
+    --white:      #FFFFFF;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body:    'DM Sans', sans-serif;
+}
+
+:root.light-mode {
+    --bg:         #F5F5F5;
+    --surface:    #FFFFFF;
+    --surface-2:  #EBEBEB;
+    --border:     rgba(0,0,0,0.1);
+    --text:       #111111;
+    --muted:      #666666;
+    --white:      #111111;
+}
+
+/* ===== RESET ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ===== NOISE OVERLAY ===== */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+}
+
+/* ===== HEADER ===== */
+header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 68px;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo { font-family: var(--font-display); font-size: 1.9rem; letter-spacing: 2px; color: var(--white); }
+.logo span { color: var(--red); }
+
+nav ul { list-style: none; display: flex; gap: 2.5rem; }
+nav a { font-size: 0.85rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+nav a:hover { color: var(--white); }
+nav a.active { color: var(--white); }
+
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    overflow: hidden;
+}
+.icon-btn:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.06); }
+.icon-btn img { width: 18px; height: 18px; filter: brightness(0) invert(1); opacity: 0.7; transition: opacity 0.2s; }
+.icon-btn:hover img { opacity: 1; }
+
+/* ===== HAMBURGER ===== */
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+.menu-toggle span { display: block; width: 24px; height: 2px; background: var(--white); transition: all 0.3s ease; }
+.menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.menu-toggle.active span:nth-child(2) { opacity: 0; }
+.menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+/* ===== FOOTER ===== */
+footer { background: var(--surface); border-top: 1px solid var(--border); }
+
+.footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 4rem 3rem 2rem;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+}
+
+.footer-brand .logo { font-size: 2rem; margin-bottom: 1rem; display: block; }
+.footer-brand p { font-size: 0.9rem; color: var(--muted); font-weight: 300; line-height: 1.7; max-width: 260px; }
+
+.footer-col h4 { font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--white); margin-bottom: 1.5rem; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.85rem; }
+.footer-col a { font-size: 0.9rem; color: var(--muted); font-weight: 300; transition: color 0.2s; }
+.footer-col a:hover { color: var(--white); }
+
+.social-row { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+.social-icon { width: 38px; height: 38px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; transition: border-color 0.2s, background 0.2s; cursor: pointer; }
+.social-icon:hover { border-color: var(--red); background: rgba(232,41,42,0.1); }
+.social-icon img { width: 18px; height: 18px; filter: brightness(0.6); transition: filter 0.2s; }
+.social-icon:hover img { filter: brightness(1); }
+
+.footer-bottom { max-width: 1280px; margin: 0 auto; padding: 1.5rem 3rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.footer-bottom p { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== RESPONSIVE — SHARED ===== */
+@media (max-width: 900px) {
+    header { padding: 0 1.5rem; }
+
+    nav { display: none; }
+    nav.active {
+        display: flex;
+        position: fixed;
+        top: 68px; left: 0; right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 2rem 1.5rem;
+        flex-direction: column;
+    }
+    nav.active ul { flex-direction: column; gap: 1.5rem; }
+    nav.active a { font-size: 1rem; color: var(--text); }
+
+    .menu-toggle { display: flex; }
+
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; padding: 3rem 1.5rem 2rem; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+
+@media (max-width: 480px) {
+    .footer-inner { grid-template-columns: 1fr; }
+}
